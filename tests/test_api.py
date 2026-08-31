@@ -165,6 +165,12 @@ class ApiTests(unittest.TestCase):
         self.assertEqual(len(body["frequencies_hz"]), len(body["values"]))
         self.assertGreater(len(body["values"]), 100)
 
+    def test_trace_return_loss_is_available_on_a_reflection_parameter(self):
+        part = self.client.get("/api/parts/QPA9903").json()
+        ds_id = part["datasets"][0]["id"]
+        body = self.client.get("/api/datasets/%d/trace?i=1&j=1&kind=return_loss" % ds_id).json()
+        self.assertTrue(all(v > 0 for v in body["values"]))
+
     def test_trace_honours_explicit_parameters(self):
         part = self.client.get("/api/parts/QPA9903").json()
         ds_id = part["datasets"][0]["id"]

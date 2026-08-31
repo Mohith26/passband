@@ -214,12 +214,27 @@ def summarize(network):
     return out
 
 
+REFLECTION_ONLY = ("vswr", "return_loss")
+
+
 def trace(network, i, j, kind):
-    """A plot ready series. kind is one of db, phase, vswr, group_delay, real,
-    imag. Raises for anything else so a typo in a query string is a 400 and not a
-    blank chart."""
+    """A plot ready series. kind is one of db, phase, vswr, return_loss,
+    group_delay, real, imag. Raises for anything else so a typo in a query string
+    is a 400 and not a blank chart.
+
+    VSWR and return loss describe a reflection, so they are refused for an off
+    diagonal parameter. Applying the formula anyway is what the first version
+    did, and on an amplifier where |S21| is 11.8 that produced a whole column of
+    infinities which the JSON encoder then rejected. The formula was never wrong;
+    asking for it on a transmission parameter was.
+    """
+    if kind in REFLECTION_ONLY and i != j:
+        raise ValueError(
+            "%s is only defined for a reflection parameter, not S%d%d" % (kind, i, j))
     values = network.s(i, j)
     freqs = network.frequencies
+    if kind == "return_loss":
+        return freqs, [return_loss_db(v) for v in values]
     if kind == "db":
         return freqs, [db20(v) for v in values]
     if kind == "phase":

@@ -41,8 +41,11 @@ def main():
     for part_number in ["QPA9903", "QPF4216"]:
         part = snapshot["/api/parts/" + part_number]
         dataset = part["datasets"][0]
-        for i, j, kind in [(2, 1, "db"), (1, 1, "db"), (2, 1, "phase"), (2, 1, "vswr"),
+        # vswr and return loss only appear on the diagonal, because the API
+        # refuses them anywhere else.
+        for i, j, kind in [(2, 1, "db"), (1, 1, "db"), (2, 1, "phase"),
                            (2, 1, "group_delay"), (1, 1, "vswr"),
+                           (1, 1, "return_loss"),
                            (1, 1, "real"), (1, 1, "imag")]:
             path = "/api/datasets/%d/trace?i=%d&j=%d&kind=%s" % (dataset["id"], i, j, kind)
             res = client.get(path)

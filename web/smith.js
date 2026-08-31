@@ -71,7 +71,7 @@ export function smithChart(mount, spec) {
     let d = '';
     let pen = false;
     for (const p of points) {
-      if (!isFinite(p.re) || !isFinite(p.im)) { pen = false; continue; }
+      if (typeof p.re !== 'number' || typeof p.im !== 'number' || !isFinite(p.re) || !isFinite(p.im)) { pen = false; continue; }
       d += (pen ? 'L' : 'M') + toX(p.re).toFixed(2) + ' ' + toY(p.im).toFixed(2) + ' ';
       pen = true;
     }

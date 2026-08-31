@@ -221,16 +221,20 @@ function renderSummary(summary) {
   }
 }
 
+// VSWR and return loss are reflection quantities. The backend refuses them for
+// an off diagonal parameter, so the buttons are disabled rather than letting the
+// user click something that can only come back as a 400.
 const TRACE_KINDS = [
-  ['db', 'Magnitude dB'],
-  ['phase', 'Phase'],
-  ['vswr', 'VSWR'],
-  ['group_delay', 'Group delay'],
+  ['db', 'Magnitude dB', false],
+  ['phase', 'Phase', false],
+  ['vswr', 'VSWR', true],
+  ['return_loss', 'Return loss', true],
+  ['group_delay', 'Group delay', false],
 ];
 
 const Y_LABEL = {
-  db: 'Magnitude (dB)', phase: 'Phase (deg)',
-  vswr: 'VSWR', group_delay: 'Group delay (s)',
+  db: 'Magnitude (dB)', phase: 'Phase (deg)', vswr: 'VSWR',
+  return_loss: 'Return loss (dB)', group_delay: 'Group delay (s)',
 };
 
 function renderControls(dataset) {
@@ -252,11 +256,15 @@ function renderControls(dataset) {
   const spacer = document.createElement('span');
   spacer.style.width = '12px';
   mount.append(spacer);
-  for (const [kind, label] of TRACE_KINDS) {
+  const [pi, pj] = state.parameter;
+  for (const [kind, label, reflectionOnly] of TRACE_KINDS) {
     const button = document.createElement('button');
     button.type = 'button';
     button.textContent = label;
-    button.setAttribute('aria-pressed', String(state.traceKind === kind));
+    const allowed = !reflectionOnly || pi === pj;
+    button.disabled = !allowed;
+    if (!allowed) button.title = `${label} is only defined for a reflection parameter`;
+    button.setAttribute('aria-pressed', String(state.traceKind === kind && allowed));
     button.addEventListener('click', () => { state.traceKind = kind; drawPlots(dataset); });
     mount.append(button);
   }
@@ -264,6 +272,8 @@ function renderControls(dataset) {
 
 async function drawPlots(dataset) {
   const [i, j] = state.parameter;
+  const kindSpec = TRACE_KINDS.find(([k]) => k === state.traceKind);
+  if (kindSpec && kindSpec[2] && i !== j) state.traceKind = 'db';
   renderControls(dataset);
   $('plot-title').textContent =
     `${dataset.part_number || ''} S${i}${j} ${dataset.revision ? 'rev ' + dataset.revision : ''}`.trim();

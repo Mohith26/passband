@@ -170,10 +170,15 @@ class TraceAndSummaryTests(unittest.TestCase):
         self.amp = touchstone.load(os.path.join(CORPUS, "touchstone", "QPA9903_revA.s2p"))
 
     def test_trace_kinds_all_return_matching_lengths(self):
-        for kind in ["db", "phase", "vswr", "real", "imag"]:
+        for kind in ["db", "phase", "real", "imag", "group_delay"]:
             freqs, values = rfmath.trace(self.net, 2, 1, kind)
             self.assertEqual(len(freqs), len(values), kind)
             self.assertEqual(len(freqs), len(self.net))
+
+    def test_reflection_only_kinds_work_on_the_diagonal(self):
+        for kind in ["vswr", "return_loss"]:
+            freqs, values = rfmath.trace(self.net, 1, 1, kind)
+            self.assertEqual(len(freqs), len(values), kind)
 
     def test_unknown_trace_kind_raises(self):
         with self.assertRaises(ValueError):
