@@ -85,7 +85,7 @@ export function lineChart(mount, spec) {
   for (const s of usable) {
     for (let i = 0; i < s.x.length; i++) {
       const xv = s.x[i], yv = s.y[i];
-      if (!isFinite(xv) || !isFinite(yv)) continue;
+      if (typeof xv !== 'number' || typeof yv !== 'number' || !isFinite(xv) || !isFinite(yv)) continue;
       if (logX && xv <= 0) continue;
       if (xv < xmin) xmin = xv;
       if (xv > xmax) xmax = xv;
@@ -139,7 +139,10 @@ export function lineChart(mount, spec) {
     let pen = false;
     for (let i = 0; i < s.x.length; i++) {
       const xv = s.x[i], yv = s.y[i];
-      if (!isFinite(xv) || !isFinite(yv) || (logX && xv <= 0)) { pen = false; continue; }
+      // A null arrives where the backend had a real infinity. Note that
+      // isFinite(null) is true in JavaScript, so the type check has to come
+      // first or the gap silently plots as zero.
+      if (typeof xv !== 'number' || typeof yv !== 'number' || !isFinite(xv) || !isFinite(yv) || (logX && xv <= 0)) { pen = false; continue; }
       d += (pen ? 'L' : 'M') + sx(xv).toFixed(2) + ' ' + sy(yv).toFixed(2) + ' ';
       pen = true;
     }
@@ -191,7 +194,8 @@ export function lineChart(mount, spec) {
       node.setAttribute('y', pad.t + 34 + index * 14);
       node.setAttribute('fill', s.colour || PALETTE[index % PALETTE.length]);
       const value = s.y[best];
-      node.textContent = `${s.label || 'y'}  ${value === undefined || !isFinite(value) ? '--' : formatY(value)}`;
+      const printable = typeof value === 'number' && isFinite(value);
+      node.textContent = `${s.label || 'y'}  ${printable ? formatY(value) : '--'}`;
     });
     cursor.setAttribute('visibility', 'visible');
   });

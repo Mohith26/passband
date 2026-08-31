@@ -18,6 +18,7 @@ Design notes worth stating:
 
 import hashlib
 import json
+import math
 import mimetypes
 import os
 import re
@@ -212,7 +213,12 @@ class Application(object):
         return self._json(start_response, 404, {"error": "no route for " + path}, method=method)
 
     def _json(self, start_response, status, payload, if_none_match=None, extra=None, method="GET"):
-        body = json.dumps(payload, sort_keys=True, allow_nan=False, default=_fallback)
+        # A physically real infinity does exist here: a perfect open circuit has
+        # an infinite standing wave ratio. It becomes JSON null so the chart
+        # leaves a gap, rather than being clamped to a large number that would
+        # read like a measurement. allow_nan stays False so anything this pass
+        # misses still fails loudly instead of emitting invalid JSON.
+        body = json.dumps(_finite(payload), sort_keys=True, allow_nan=False, default=_fallback)
         raw = body.encode("utf-8")
         etag = '"%s"' % hashlib.sha256(raw).hexdigest()[:32]
         if if_none_match and if_none_match == etag:
@@ -251,6 +257,16 @@ class Application(object):
             ("X-Content-Type-Options", "nosniff"),
         ])
         return [b""] if method == "HEAD" else [raw]
+
+
+def _finite(value):
+    if isinstance(value, float):
+        return value if math.isfinite(value) else None
+    if isinstance(value, dict):
+        return {k: _finite(v) for k, v in value.items()}
+    if isinstance(value, (list, tuple)):
+        return [_finite(v) for v in value]
+    return value
 
 
 def _fallback(value):
