@@ -1,0 +1,400 @@
+{
+  "datasets": [
+    {
+      "format": "DB",
+      "part_number": "QPF4216",
+      "path": "touchstone/QPF4216_revA.s2p",
+      "ports": 2,
+      "revision": "A"
+    },
+    {
+      "format": "DB",
+      "part_number": "QPF4216",
+      "path": "touchstone/QPF4216_revB.s2p",
+      "ports": 2,
+      "revision": "B"
+    },
+    {
+      "format": "DB",
+      "part_number": "QPF4228",
+      "path": "touchstone/QPF4228_revA.s2p",
+      "ports": 2,
+      "revision": "A"
+    },
+    {
+      "format": "DB",
+      "part_number": "QPF4228",
+      "path": "touchstone/QPF4228_revB.s2p",
+      "ports": 2,
+      "revision": "B"
+    },
+    {
+      "format": "MA",
+      "part_number": "QPA9903",
+      "path": "touchstone/QPA9903_revA.s2p",
+      "ports": 2,
+      "revision": "A"
+    },
+    {
+      "format": "MA",
+      "part_number": "QPA9903",
+      "path": "touchstone/QPA9903_revB.s2p",
+      "ports": 2,
+      "revision": "B"
+    },
+    {
+      "format": "MA",
+      "part_number": "QPA2933",
+      "path": "touchstone/QPA2933_revA.s2p",
+      "ports": 2,
+      "revision": "A"
+    },
+    {
+      "format": "MA",
+      "part_number": "QPA2933",
+      "path": "touchstone/QPA2933_revB.s2p",
+      "ports": 2,
+      "revision": "B"
+    },
+    {
+      "format": "MA",
+      "part_number": "QPL9547",
+      "path": "touchstone/QPL9547_revA.s2p",
+      "ports": 2,
+      "revision": "A"
+    },
+    {
+      "format": "MA",
+      "part_number": "QPL9547",
+      "path": "touchstone/QPL9547_revB.s2p",
+      "ports": 2,
+      "revision": "B"
+    },
+    {
+      "format": "DB",
+      "part_number": "QPQ1903",
+      "path": "touchstone/QPQ1903_revA.s2p",
+      "ports": 2,
+      "revision": "A"
+    },
+    {
+      "format": "DB",
+      "part_number": "QPQ1903",
+      "path": "touchstone/QPQ1903_revB.s2p",
+      "ports": 2,
+      "revision": "B"
+    },
+    {
+      "format": "DB",
+      "part_number": "QPQ1904",
+      "path": "touchstone/QPQ1904_revA.s2p",
+      "ports": 2,
+      "revision": "A"
+    },
+    {
+      "format": "DB",
+      "part_number": "QPQ1904",
+      "path": "touchstone/QPQ1904_revB.s2p",
+      "ports": 2,
+      "revision": "B"
+    },
+    {
+      "format": "RI",
+      "part_number": "TR50X",
+      "path": "touchstone/TR50X_revA.s1p",
+      "ports": 1,
+      "revision": "A"
+    },
+    {
+      "format": "RI",
+      "part_number": "TR50X",
+      "path": "touchstone/TR50X_revB.s1p",
+      "ports": 1,
+      "revision": "B"
+    }
+  ],
+  "documents": [
+    {
+      "kind": "datasheet",
+      "part_number": "QPF4216",
+      "path": "documents/QPF4216_datasheet.txt",
+      "title": "QPF4216 datasheet"
+    },
+    {
+      "kind": "application note",
+      "part_number": "QPF4216",
+      "path": "documents/QPF4216_application_note.txt",
+      "title": "QPF4216 application note"
+    },
+    {
+      "kind": "test report",
+      "part_number": "QPF4216",
+      "path": "documents/QPF4216_test_report.txt",
+      "title": "QPF4216 test report"
+    },
+    {
+      "kind": "layout guide",
+      "part_number": "QPF4216",
+      "path": "documents/QPF4216_layout_guide.txt",
+      "title": "QPF4216 layout guide"
+    },
+    {
+      "kind": "errata",
+      "part_number": "QPF4216",
+      "path": "documents/QPF4216_errata.txt",
+      "title": "QPF4216 errata"
+    },
+    {
+      "kind": "datasheet",
+      "part_number": "QPF4228",
+      "path": "documents/QPF4228_datasheet.txt",
+      "title": "QPF4228 datasheet"
+    },
+    {
+      "kind": "application note",
+      "part_number": "QPF4228",
+      "path": "documents/QPF4228_application_note.txt",
+      "title": "QPF4228 application note"
+    },
+    {
+      "kind": "test report",
+      "part_number": "QPF4228",
+      "path": "documents/QPF4228_test_report.txt",
+      "title": "QPF4228 test report"
+    },
+    {
+      "kind": "layout guide",
+      "part_number": "QPF4228",
+      "path": "documents/QPF4228_layout_guide.txt",
+      "title": "QPF4228 layout guide"
+    },
+    {
+      "kind": "errata",
+      "part_number": "QPF4228",
+      "path": "documents/QPF4228_errata.txt",
+      "title": "QPF4228 errata"
+    },
+    {
+      "kind": "datasheet",
+      "part_number": "QPA9903",
+      "path": "documents/QPA9903_datasheet.txt",
+      "title": "QPA9903 datasheet"
+    },
+    {
+      "kind": "application note",
+      "part_number": "QPA9903",
+      "path": "documents/QPA9903_application_note.txt",
+      "title": "QPA9903 application note"
+    },
+    {
+      "kind": "test report",
+      "part_number": "QPA9903",
+      "path": "documents/QPA9903_test_report.txt",
+      "title": "QPA9903 test report"
+    },
+    {
+      "kind": "layout guide",
+      "part_number": "QPA9903",
+      "path": "documents/QPA9903_layout_guide.txt",
+      "title": "QPA9903 layout guide"
+    },
+    {
+      "kind": "errata",
+      "part_number": "QPA9903",
+      "path": "documents/QPA9903_errata.txt",
+      "title": "QPA9903 errata"
+    },
+    {
+      "kind": "datasheet",
+      "part_number": "QPA2933",
+      "path": "documents/QPA2933_datasheet.txt",
+      "title": "QPA2933 datasheet"
+    },
+    {
+      "kind": "application note",
+      "part_number": "QPA2933",
+      "path": "documents/QPA2933_application_note.txt",
+      "title": "QPA2933 application note"
+    },
+    {
+      "kind": "test report",
+      "part_number": "QPA2933",
+      "path": "documents/QPA2933_test_report.txt",
+      "title": "QPA2933 test report"
+    },
+    {
+      "kind": "layout guide",
+      "part_number": "QPA2933",
+      "path": "documents/QPA2933_layout_guide.txt",
+      "title": "QPA2933 layout guide"
+    },
+    {
+      "kind": "errata",
+      "part_number": "QPA2933",
+      "path": "documents/QPA2933_errata.txt",
+      "title": "QPA2933 errata"
+    },
+    {
+      "kind": "datasheet",
+      "part_number": "QPL9547",
+      "path": "documents/QPL9547_datasheet.txt",
+      "title": "QPL9547 datasheet"
+    },
+    {
+      "kind": "application note",
+      "part_number": "QPL9547",
+      "path": "documents/QPL9547_application_note.txt",
+      "title": "QPL9547 application note"
+    },
+    {
+      "kind": "test report",
+      "part_number": "QPL9547",
+      "path": "documents/QPL9547_test_report.txt",
+      "title": "QPL9547 test report"
+    },
+    {
+      "kind": "layout guide",
+      "part_number": "QPL9547",
+      "path": "documents/QPL9547_layout_guide.txt",
+      "title": "QPL9547 layout guide"
+    },
+    {
+      "kind": "errata",
+      "part_number": "QPL9547",
+      "path": "documents/QPL9547_errata.txt",
+      "title": "QPL9547 errata"
+    },
+    {
+      "kind": "datasheet",
+      "part_number": "QPQ1903",
+      "path": "documents/QPQ1903_datasheet.txt",
+      "title": "QPQ1903 datasheet"
+    },
+    {
+      "kind": "application note",
+      "part_number": "QPQ1903",
+      "path": "documents/QPQ1903_application_note.txt",
+      "title": "QPQ1903 application note"
+    },
+    {
+      "kind": "test report",
+      "part_number": "QPQ1903",
+      "path": "documents/QPQ1903_test_report.txt",
+      "title": "QPQ1903 test report"
+    },
+    {
+      "kind": "layout guide",
+      "part_number": "QPQ1903",
+      "path": "documents/QPQ1903_layout_guide.txt",
+      "title": "QPQ1903 layout guide"
+    },
+    {
+      "kind": "errata",
+      "part_number": "QPQ1903",
+      "path": "documents/QPQ1903_errata.txt",
+      "title": "QPQ1903 errata"
+    },
+    {
+      "kind": "datasheet",
+      "part_number": "QPQ1904",
+      "path": "documents/QPQ1904_datasheet.txt",
+      "title": "QPQ1904 datasheet"
+    },
+    {
+      "kind": "application note",
+      "part_number": "QPQ1904",
+      "path": "documents/QPQ1904_application_note.txt",
+      "title": "QPQ1904 application note"
+    },
+    {
+      "kind": "test report",
+      "part_number": "QPQ1904",
+      "path": "documents/QPQ1904_test_report.txt",
+      "title": "QPQ1904 test report"
+    },
+    {
+      "kind": "layout guide",
+      "part_number": "QPQ1904",
+      "path": "documents/QPQ1904_layout_guide.txt",
+      "title": "QPQ1904 layout guide"
+    },
+    {
+      "kind": "errata",
+      "part_number": "QPQ1904",
+      "path": "documents/QPQ1904_errata.txt",
+      "title": "QPQ1904 errata"
+    },
+    {
+      "kind": "datasheet",
+      "part_number": "TR50X",
+      "path": "documents/TR50X_datasheet.txt",
+      "title": "TR50X datasheet"
+    },
+    {
+      "kind": "application note",
+      "part_number": "TR50X",
+      "path": "documents/TR50X_application_note.txt",
+      "title": "TR50X application note"
+    },
+    {
+      "kind": "test report",
+      "part_number": "TR50X",
+      "path": "documents/TR50X_test_report.txt",
+      "title": "TR50X test report"
+    },
+    {
+      "kind": "layout guide",
+      "part_number": "TR50X",
+      "path": "documents/TR50X_layout_guide.txt",
+      "title": "TR50X layout guide"
+    },
+    {
+      "kind": "errata",
+      "part_number": "TR50X",
+      "path": "documents/TR50X_errata.txt",
+      "title": "TR50X errata"
+    }
+  ],
+  "parts": [
+    {
+      "description": "QPF4216 front end module",
+      "family": "front end module",
+      "part_number": "QPF4216"
+    },
+    {
+      "description": "QPF4228 front end module",
+      "family": "front end module",
+      "part_number": "QPF4228"
+    },
+    {
+      "description": "QPA9903 low noise amplifier",
+      "family": "low noise amplifier",
+      "part_number": "QPA9903"
+    },
+    {
+      "description": "QPA2933 power amplifier",
+      "family": "power amplifier",
+      "part_number": "QPA2933"
+    },
+    {
+      "description": "QPL9547 low noise amplifier",
+      "family": "low noise amplifier",
+      "part_number": "QPL9547"
+    },
+    {
+      "description": "QPQ1903 baw filter",
+      "family": "baw filter",
+      "part_number": "QPQ1903"
+    },
+    {
+      "description": "QPQ1904 baw filter",
+      "family": "baw filter",
+      "part_number": "QPQ1904"
+    },
+    {
+      "description": "TR50X termination",
+      "family": "termination",
+      "part_number": "TR50X"
+    }
+  ]
+}

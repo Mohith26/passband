@@ -1,0 +1,5 @@
+QPA9903 DATASHEET
+
+Electrical characteristics measured at 25 C with a 50 ohm reference impedance. Small signal gain, input and output return loss, and noise figure are specified over the operating band. Absolute maximum ratings must not be exceeded even momentarily. Package is a laminate module with a ground paddle that must be soldered for thermal and RF performance.
+
+Applies to QPA9903 in the low noise amplifier family. Document revision 1.1.

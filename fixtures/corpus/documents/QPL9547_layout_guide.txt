@@ -1,0 +1,5 @@
+QPL9547 LAYOUT GUIDE
+
+Recommended land pattern, stackup, and keepout. The transmission line impedance on the input and output should be held to 50 ohms with a controlled dielectric. Avoid routing digital control traces underneath the RF path or coupling will show up as spurious content in the transmitted signal.
+
+Applies to QPL9547 in the low noise amplifier family. Document revision 2.0.
