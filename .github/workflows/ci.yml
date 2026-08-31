@@ -1,0 +1,70 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python: ['3.9', '3.11', '3.12']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - name: build the sample corpus
+        run: python fixtures/generate.py
+      - name: run the test suite
+        run: python tests/run.py
+
+  mariadb:
+    # The unit tests run against SQLite so they need nothing installed. This job
+    # is the other half: it applies the generated MariaDB DDL to a real server,
+    # which is the one thing the test suite cannot check on its own.
+    runs-on: ubuntu-latest
+    services:
+      mariadb:
+        image: mariadb:11
+        env:
+          MARIADB_ROOT_PASSWORD: passband
+          MARIADB_DATABASE: passband
+        ports: ['3306:3306']
+        options: >-
+          --health-cmd="healthcheck.sh --connect --innodb_initialized"
+          --health-interval=5s --health-timeout=5s --health-retries=20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: render the MariaDB schema
+        run: python -c "from server import schema; open('schema.sql','w').write(schema.ddl('mariadb'))"
+      - name: apply it to a real MariaDB
+        run: mysql -h 127.0.0.1 -P 3306 -u root -ppassband passband < schema.sql
+      - name: confirm every table exists
+        run: |
+          mysql -h 127.0.0.1 -P 3306 -u root -ppassband passband \
+            -e "SELECT table_name FROM information_schema.tables WHERE table_schema='passband';" \
+            | tee tables.txt
+          for t in parts revisions documents datasets tags document_tags doc_terms doc_stats; do
+            grep -qx "$t" tables.txt || { echo "missing table $t"; exit 1; }
+          done
+
+  benchmarks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python fixtures/generate.py
+      - name: benchmarks on a native interpreter
+        run: python bench/run.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: benchmarks
+          path: results/benchmarks.json
