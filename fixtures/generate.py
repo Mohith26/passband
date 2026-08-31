@@ -49,6 +49,13 @@ def amplifier_gain(f, gain_db_dc, f3db, poles):
 def make_filter(name, f0, bw, order, points, rng, ripple_db=0.0):
     freqs = linspace(f0 - 3.0 * bw, f0 + 3.0 * bw, points)
     freqs = [f for f in freqs if f > 0]
+    # Reflection phase rotates smoothly with frequency because the reference
+    # plane sits some electrical length away from the device. Drawing it from a
+    # uniform random distribution instead, which is what the first version did,
+    # produces a Smith chart that looks like a scribble: the magnitudes were
+    # right but the locus was physically impossible.
+    tau_in = rng.uniform(40e-12, 120e-12)
+    tau_out = rng.uniform(40e-12, 120e-12)
     matrices = []
     for f in freqs:
         s21 = butterworth_bandpass(f, f0, bw, order)
@@ -62,8 +69,8 @@ def make_filter(name, f0, bw, order, points, rng, ripple_db=0.0):
         # so the part is passive but not lossless.
         through = abs(s21) ** 2
         refl_mag = math.sqrt(max(0.0, 1.0 - through) * 0.94)
-        s11 = cmath.rect(refl_mag, rng.uniform(-math.pi, math.pi))
-        s22 = cmath.rect(refl_mag * 0.97, rng.uniform(-math.pi, math.pi))
+        s11 = cmath.rect(refl_mag, -2.0 * math.pi * f * tau_in)
+        s22 = cmath.rect(refl_mag * 0.97, -2.0 * math.pi * f * tau_out)
         matrices.append([[s11, s21], [s21, s22]])
     options = dict(touchstone.DEFAULT_OPTIONS)
     options["format"] = "DB"
@@ -72,12 +79,21 @@ def make_filter(name, f0, bw, order, points, rng, ripple_db=0.0):
 
 def make_amplifier(name, gain_db_dc, f3db, points, rng):
     freqs = linspace(f3db * 0.05, f3db * 2.5, points)
+    tau_in = rng.uniform(25e-12, 70e-12)
+    tau_out = rng.uniform(25e-12, 70e-12)
+    tau_rev = rng.uniform(60e-12, 140e-12)
+    # Input match improves toward mid band and degrades at the edges, which is
+    # what gives the locus its characteristic inward loop.
+    m_in = rng.uniform(0.14, 0.24)
+    m_out = rng.uniform(0.16, 0.28)
     matrices = []
     for f in freqs:
+        x = f / f3db
+        shape = 0.35 + 0.65 * abs(x - 0.55) / 0.55
         s21 = amplifier_gain(f, gain_db_dc, f3db, 2)
-        s12 = cmath.rect(10.0 ** (-32.0 / 20.0), rng.uniform(-math.pi, math.pi))
-        s11 = cmath.rect(rng.uniform(0.06, 0.22), rng.uniform(-math.pi, math.pi))
-        s22 = cmath.rect(rng.uniform(0.08, 0.26), rng.uniform(-math.pi, math.pi))
+        s12 = cmath.rect(10.0 ** (-32.0 / 20.0), -2.0 * math.pi * f * tau_rev)
+        s11 = cmath.rect(min(0.95, m_in * shape), -2.0 * math.pi * f * tau_in)
+        s22 = cmath.rect(min(0.95, m_out * shape), -2.0 * math.pi * f * tau_out)
         matrices.append([[s11, s12], [s21, s22]])
     options = dict(touchstone.DEFAULT_OPTIONS)
     options["format"] = "MA"
@@ -86,10 +102,11 @@ def make_amplifier(name, gain_db_dc, f3db, points, rng):
 
 def make_termination(name, points, rng):
     freqs = linspace(1e8, 6e9, points)
+    tau = rng.uniform(15e-12, 45e-12)
     matrices = []
     for f in freqs:
         mag = 0.01 + 0.02 * (f / 6e9)
-        matrices.append([[cmath.rect(mag, rng.uniform(-math.pi, math.pi))]])
+        matrices.append([[cmath.rect(mag, -2.0 * math.pi * f * tau)]])
     options = dict(touchstone.DEFAULT_OPTIONS)
     options["format"] = "RI"
     return touchstone.Network(1, freqs, matrices, options, comments=[name])
