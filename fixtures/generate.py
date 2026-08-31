@@ -53,7 +53,11 @@ def make_filter(name, f0, bw, order, points, rng, ripple_db=0.0):
     for f in freqs:
         s21 = butterworth_bandpass(f, f0, bw, order)
         if ripple_db:
-            s21 *= 10.0 ** (rng.uniform(-ripple_db, ripple_db) / 20.0)
+            # Ripple is applied as attenuation only. Letting it swing positive
+            # is what my first version did, and it pushed |S21| to 1.02 in band,
+            # which is a passive filter with gain. The fixtures are supposed to
+            # be physically legal, so the ripple can only ever take away.
+            s21 *= 10.0 ** (-abs(rng.uniform(0.0, ripple_db)) / 20.0)
         # Reflection is whatever is not transmitted, with a small resistive loss
         # so the part is passive but not lossless.
         through = abs(s21) ** 2
@@ -139,6 +143,19 @@ BODY_SNIPPETS = {
 }
 
 
+def assert_passive(network, name):
+    """A passive part cannot produce more power than it receives, so no scattering
+    parameter may exceed unity. Checked at generation time so a bad fixture can
+    never reach the test suite and quietly weaken it."""
+    for k, matrix in enumerate(network.matrices):
+        for row in matrix:
+            for value in row:
+                if abs(value) > 1.0 + 1e-9:
+                    raise AssertionError(
+                        "%s point %d has |S| = %.6f, which is not passive"
+                        % (name, k, abs(value)))
+
+
 def build(out_dir):
     rng = random.Random(SEED)
     os.makedirs(out_dir, exist_ok=True)
@@ -159,6 +176,7 @@ def build(out_dir):
             if kind == "filter":
                 net = make_filter(part_number, params["f0"], params["bw"], params["order"], 201, rng,
                                   params.get("ripple_db", 0.0))
+                assert_passive(net, "%s rev%s" % (part_number, revision))
                 fmt = "DB"
             elif kind == "amp":
                 net = make_amplifier(part_number, params["gain_db_dc"] - rev_index * 0.4,
@@ -166,6 +184,7 @@ def build(out_dir):
                 fmt = "MA"
             else:
                 net = make_termination(part_number, 121, rng)
+                assert_passive(net, "%s rev%s" % (part_number, revision))
                 fmt = "RI"
             ext = ".s%dp" % net.ports
             filename = "%s_rev%s%s" % (part_number, revision, ext)
