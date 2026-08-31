@@ -145,6 +145,13 @@ p { margin: 0 0 var(--s3); }
   background: var(--panel); color: var(--ink-dim); font: inherit; font-size: 12px; cursor: pointer;
 }
 .controls button[aria-pressed="true"] { background: var(--accent-soft); border-color: rgba(79,156,249,.45); color: var(--ink); }
+/* A control that cannot apply to the current parameter has to look unavailable,
+   not merely behave that way. */
+.controls button:disabled {
+  opacity: .34; cursor: not-allowed; color: var(--ink-faint);
+  border-style: dashed; background: none;
+}
+.controls button:disabled:hover { color: var(--ink-faint); }
 .chartbox { margin: 0 0 var(--s5); padding: var(--s3); border: 1px solid var(--line-soft); border-radius: var(--r2); background: var(--panel); }
 .smithbox { max-width: 460px; }
 .chartbox figcaption { margin-top: var(--s2); }
