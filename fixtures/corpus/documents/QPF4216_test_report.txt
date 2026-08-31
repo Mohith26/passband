@@ -1,0 +1,5 @@
+QPF4216 TEST REPORT
+
+Verification sweep across temperature and supply corners. Each unit was measured on a calibrated two port vector network analyzer using a short open load thru calibration. Return loss, insertion loss, gain flatness, and group delay ripple were recorded and compared against the specification limits.
+
+Applies to QPF4216 in the front end module family. Document revision 1.1.

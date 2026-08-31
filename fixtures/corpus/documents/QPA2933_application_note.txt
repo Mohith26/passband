@@ -1,0 +1,5 @@
+QPA2933 APPLICATION NOTE
+
+This note covers the recommended matching network, bias sequencing, and layout practice. Bias the device through a quarter wave line or a wideband choke and decouple close to the pin. Keep the ground return path short: via stitching around the ground paddle dominates measured stability at the high end of the band.
+
+Applies to QPA2933 in the power amplifier family. Document revision 2.3.

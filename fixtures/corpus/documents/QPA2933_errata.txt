@@ -1,0 +1,5 @@
+QPA2933 ERRATA
+
+Known issue affecting an early production lot. Under a specific bias and temperature combination the device can exhibit a stability margin below the specified limit near the upper band edge. Mitigation is a series resistor on the bias line. Later date codes are not affected.
+
+Applies to QPA2933 in the power amplifier family. Document revision 1.0.
