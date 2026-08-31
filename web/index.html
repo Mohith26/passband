@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Passband</title>
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">
+    <span class="mark" aria-hidden="true"></span>
+    <span class="wordmark">passband</span>
+    <span class="tagline">engineering documentation and measurement data</span>
+  </div>
+  <form class="searchbar" id="searchform" autocomplete="off">
+    <input id="q" type="search" placeholder="Search parts, datasheets, errata, application notes" aria-label="Search">
+    <button type="submit">Search</button>
+  </form>
+  <div class="counts" id="counts" aria-live="polite"></div>
+</header>
+
+<main class="layout">
+  <aside class="facets" id="facets" aria-label="Filters">
+    <h2>Filters</h2>
+    <div class="facet-group" id="facet-kind"></div>
+    <div class="facet-group" id="facet-family"></div>
+    <button class="clear" id="clear" type="button">Clear filters</button>
+    <h2 class="parts-heading">Parts</h2>
+    <ul class="partlist" id="partlist"></ul>
+  </aside>
+
+  <section class="results" id="results" aria-label="Results">
+    <div class="results-head">
+      <h2 id="results-title">Documents</h2>
+      <span class="muted" id="results-count"></span>
+    </div>
+    <ul class="doclist" id="doclist"></ul>
+    <div class="pager" id="pager"></div>
+  </section>
+
+  <section class="detail" id="detail" aria-label="Detail">
+    <div class="empty" id="empty">
+      <p>Select a document or a part to see it here.</p>
+      <p class="muted">Measurement files are parsed on request, so the plotted numbers always come from the file on disk.</p>
+    </div>
+    <article class="doc" id="doc" hidden></article>
+    <div class="plots" id="plots" hidden>
+      <div class="plot-head">
+        <h3 id="plot-title"></h3>
+        <div class="controls" id="plot-controls"></div>
+      </div>
+      <figure class="chartbox">
+        <div id="chart"></div>
+        <figcaption id="chart-caption" class="muted"></figcaption>
+      </figure>
+      <figure class="chartbox smithbox">
+        <div id="smith"></div>
+        <figcaption class="muted">Input reflection on the impedance plane, normalised to the file reference impedance.</figcaption>
+      </figure>
+      <table class="summary" id="summary"></table>
+    </div>
+  </section>
+</main>
+
+<script type="module" src="/app.js"></script>
+</body>
+</html>
