@@ -31,7 +31,7 @@ than bury:
   changes, and reports it alongside the results. **0.1 ms.** Any figure at or
   below that is the timer.
 
-I would rather publish a slow honest number with its caveat than a fast one I
+I would rather publish a slow number with its caveat than a fast one I
 cannot defend.
 
 ## Test suite

@@ -21,7 +21,7 @@ python3 server/api.py           # http://127.0.0.1:8080
 
 ![The part view](docs/screenshot.png)
 
-## What is in it
+## Modules
 
 | Path | What it does |
 | --- | --- |
@@ -56,7 +56,7 @@ nothing is welded to one driver. No value is ever interpolated into SQL. The one
 thing that legitimately varies, the `ORDER BY` column, goes through an allow list,
 and `tests/test_store.py` asserts that `order=body; DROP TABLE parts` is refused.
 
-**How far the MariaDB path is actually verified.** The test suite only checks that
+How far the MariaDB path is actually verified. The test suite only checks that
 the MariaDB render is well formed, because there is no MariaDB where I built this.
 A structural check is weak, so CI closes the gap: a separate job stands up a real
 `mariadb:11` service, applies the generated DDL, and fails if any of the eight
@@ -70,7 +70,7 @@ Touchstone looks trivial and is not. The parser handles the parts that bite:
 
 - the option line is optional and any of its four fields may be omitted
 - data pairs are real/imaginary, magnitude/angle or dB/angle, angle in degrees
-- **a two port file lists S11 S21 S12 S22**, transposed relative to every other
+- a two port file lists S11 S21 S12 S22, transposed relative to every other
   port count, which is the single most common way to read one of these wrong
 - points fold across several lines for higher port counts
 - `!` starts a comment anywhere, including after data
@@ -94,7 +94,7 @@ asking for it was, so the fix is a domain restriction: reflection quantities are
 refused off the diagonal, the API answers 400 naming the reason, and the front end
 disables those buttons instead of offering a request that cannot succeed. As
 defence in depth a non finite float now serialises as `null`, because a perfect
-open really does have infinite VSWR and a gap in the chart is more honest than a
+open really does have infinite VSWR and a gap in the chart is more truthful than a
 clamped number.
 
 **A passive filter with gain.** The fixture generator applied its ripple as a
@@ -141,7 +141,7 @@ set where each query has one unambiguously correct document kind, and asserts
 precision at 1 of 5/5. It is a small set and it is synthetic data, so it is a
 regression guard rather than a claim about search quality in general.
 
-## Numbers
+## Latency and throughput
 
 From `results/benchmarks.json`. Read the environment note below before quoting any
 of these.
@@ -155,13 +155,13 @@ of these.
 | Trace endpoint | p50 3.6 ms for 201 points and 6.9 KB of JSON |
 | Document listing | p50 0.5 ms, 3.6 KB |
 
-**Environment, and why it matters.** These were measured under CPython 3.12
+Environment, and why it matters. These were measured under CPython 3.12
 compiled to WebAssembly, because no native interpreter was available on the
 machine I built this on. Two consequences, both real:
 
 1. WebAssembly is meaningfully slower than native CPython, so these are a floor
    rather than a fair reading of the code.
-2. The runtime clamps `perf_counter` to a **0.1 ms** resolution, measured in the
+2. The runtime clamps `perf_counter` to a 0.1 ms resolution, measured in the
    benchmark itself rather than assumed. Every figure at or below 0.1 ms is the
    clock, not the code, which covers `health`, `facets` and `dataset_detail`. I
    have left them in the JSON and I am not quoting them as measurements.
@@ -197,7 +197,7 @@ points, and the browser check replays those, asserting the chart, the Smith grid
 the summary table and the disabled state of the reflection only controls all
 render.
 
-## Tests
+## Testing
 
 165 tests, about 2 seconds.
 
@@ -216,11 +216,11 @@ The API tests call the WSGI application directly. No socket, no server thread, s
 they are as fast and as deterministic as the unit tests while still exercising the
 real request path.
 
-## Limitations
+## What's missing
 
 - The MariaDB schema is rendered and structurally checked, never executed.
 - Measurement files are parsed on demand and not cached, which is what keeps the
-  displayed numbers honest after a file is corrected, and what makes the trace
+  displayed numbers current after a file is corrected, and what makes the trace
   endpoint the slowest one.
 - Search has no stemming and no phrase queries.
 - The corpus is synthetic. It is built from textbook responses with known answers
